@@ -11,10 +11,10 @@ import java.util.concurrent.TimeUnit;
 public class FirstTest {
     private static AndroidDriverManager driverManager;
     static AndroidDriver<AndroidElement> driver;
-    private LoginLayout loginLayout;
-    private RegisterLayout registerLayout;
-    private BudgetLayout budgetLayout;
-    private AddExpenseLayout addExpenseLayout;
+    private static LoginLayout loginLayout;
+    private static RegisterLayout registerLayout;
+    private static BudgetLayout budgetLayout;
+    private static AddExpenseLayout addExpenseLayout;
     static String email = "loging@login.com";
     static String pwd = "loging123123123";
     static String username = "user";
@@ -23,24 +23,35 @@ public class FirstTest {
         driverManager = new AndroidDriverManager();
         driver = driverManager.getDriver();
         driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-    }
-    @Before
-    public void initPageObject() {
         loginLayout = new LoginLayout(driver);
     }
     @Test
-    public void test() throws InterruptedException {
+    public void test1() throws InterruptedException {
         loginLayout.verify();
+    }
+    @Test
+    public void test2() throws InterruptedException{
         registerLayout = loginLayout.toRegisterLayout();
         registerLayout.verify();
+    }
+    @Test
+    public void test3() throws InterruptedException{
         loginLayout = registerLayout.registerNewAccount(email, username, pwd);
         loginLayout.verify();
+    }
+    @Test
+    public void test4() throws InterruptedException{
         budgetLayout = loginLayout.enterEmailAndPassword(email, pwd);
         budgetLayout.verify("Internet VPN", "30$", "Medical");
+    }
+    @Test
+    public void test5() throws InterruptedException{
         addExpenseLayout = budgetLayout.toAddExpense();
         addExpenseLayout.verify();
+    }
+    @Test
+    public void test6() throws InterruptedException{
         budgetLayout = addExpenseLayout.addExpense("Cat", "1", "04/14/2020 10:22", "Pet");
         budgetLayout.verify("Cat","1$","Pet");
-        Thread.sleep(5000);
     }
 }

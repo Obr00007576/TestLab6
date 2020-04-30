@@ -14,6 +14,8 @@ import java.util.List;
 public class BudgetLayout {
     @FindBy(id = "platkovsky.alexey.epamtestapp:id/add_new_expense")
     AndroidElement addNewExpense;
+    @FindBy(xpath = "//android.widget.ListView[@resource-id='platkovsky.alexey.epamtestapp:id/expenses_list']/android.widget.LinearLayout")
+    List<AndroidElement> itemList;
     private AndroidDriver<AndroidElement> driver;
     public BudgetLayout(AndroidDriver<AndroidElement> driver) {
         this.driver = driver;
@@ -26,8 +28,7 @@ public class BudgetLayout {
     }
     public void verify(String title, String sum, String categoryPicker)
     {
-        List<AndroidElement> list = driver.findElements(By.xpath("//android.widget.ListView[@resource-id='platkovsky.alexey.epamtestapp:id/expenses_list']/android.widget.LinearLayout"));
-        for(AndroidElement element: list)
+        for(AndroidElement element: itemList)
         {
             String title1 = element.findElement(By.xpath("//android.widget.TextView[@resource-id='platkovsky.alexey.epamtestapp:id/expense_title']")).getText();
             String sum1 = element.findElement(By.xpath("//android.widget.TextView[@resource-id='platkovsky.alexey.epamtestapp:id/expense_sum']")).getText();
